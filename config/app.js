@@ -1,11 +1,13 @@
-var express = require('express');
-var logger = require('morgan');
+const express = require('express');
+const logger = require('morgan');
+const initializeDatabase = require('./database')
 
-var indexRouter = require('../routes/index');
-var usersRouter = require('../routes/users');
+const indexRouter = require('../routes/index');
+const usersRouter = require('../routes/users');
 
-var app = express();
+const app = express();
 
+initializeDatabase("mongodb+srv://admin:admin@cluster0.jimdg.mongodb.net/cafum?retryWrites=true&w=majority")
 app.use(logger('dev'));
 app.use(express.json());
 
