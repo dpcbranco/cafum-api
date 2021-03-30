@@ -101,26 +101,11 @@ function getConstructorStandingsData(date="current") {
 }
 
 
-exports.seasons = function(seasonRetroNumber) {
-    getSeasonsData(seasonRetroNumber);
-}
-
-exports.drivers = function(date) {
-    getDriversData(date)
-}
-
-exports.constructors = function(date) {
-    getDriversData(date)
-}
-
-exports.schedule = function(date) {
-    getScheduleData(date)
-}
-
-exports.driverStandings = function(date) {
-    getDriverStandingsData(date)
-}
-
-exports.constructorStandings = function(date) {
-    getConstructorStandingsData(date)
+module.exports = {
+    SeasonsData              : getSeasonsData                ,
+    DriversData              : getDriversData                ,
+    ConstructorsData         : getConstructorsData           ,
+    ScheduleData             : getScheduleData               ,
+    DriverStandingsData      : getDriverStandingsData        ,
+    ConstructorStandingsData : getConstructorStandingsData
 }
