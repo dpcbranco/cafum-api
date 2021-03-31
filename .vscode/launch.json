@@ -16,7 +16,8 @@
                 "<node_internals>/**"
             ],
             "type": "pwa-node",
-            "envFile": "${workspaceFolder}/.env"
+            "envFile": "${workspaceFolder}/.env",
+            "args": ["--r", "dotenv-safe/config"]
         }
                
     ]
