@@ -1,12 +1,17 @@
 const got = require('got');
+const { response } = require('./app');
 
-function getSeasonsData(seasonRetroNumber) {
 
-    (async () => {
-        seasonList = {};
-        uri = "https://ergast.com/api/f1/seasons"
+const getSeasonsData = async(seasonRetroNumber) => {
+    seasonList = {};
+    
 
-        await got.get(uri, {responseType: 'json'})
+    return new Promise((resolve, reject) => {
+
+        uri = "https://ergast.com/api/f1/seasons.json"
+        seasonsRetroactive = 0
+
+        got.get(uri, {responseType: 'json'})
             .then(res => {
                 seasonsData = JSON.parse(res.body) ['MRData']
                 totalSeasons = seasonsData ['total']
@@ -14,92 +19,141 @@ function getSeasonsData(seasonRetroNumber) {
 
             })
 
-            got.get(uri + '?limit=' + seasonRetroNumber + '&offset=' + seasonsRetroactive, {responseType: 'json'})
+        got.get(uri + '?limit=' + seasonRetroNumber + '&offset=' + seasonsRetroactive, {responseType: 'json'})
             .then(res => {
-                seasonsData2 = JSON.parse(res.body) ['MRData']
+                seasonsData = JSON.parse(res.body) ['MRData']
                 seasonsInfo = seasonsData2 ['SeasonTable'] ['Seasons']
         
                 for (i = 0; i <= seasonRetroNumber - 1; i++) {
                     seasonList[seasonsInfo[i] ['season']] = seasonsInfo[i] ['url']
                 }
-                return seasonList
+                resolve(seasonList)
             })
-            .catch(err => {
-                console.log('Error: ', err.message);
-        });
-    })();
+            
+    })
 }
 
 
-function getDriversData(date="current") {
-    (async () => {        
-        uri = "http://ergast.com/api/f1/" + date + "/drivers.json"
+const getScheduleData = async(date="current") => {
+    scheduleData = {}
 
-        await got.get(uri, {responseType: 'json'})
-            .then(res => {
-                driversData = JSON.parse(res.body) ['MRData']['DriverTable']['Drivers']
-
-            })
-            return driversData
-    }) ();
-}
-
-
-function getConstructorsData(date="current") {
-    (async () => {        
-        uri = "http://ergast.com/api/f1/" + date + "/constructors.json"
-
-        await got.get(uri, {responseType: 'json'})
-            .then(res => {
-                driversData = JSON.parse(res.body) ['MRData']['ConstructorTable']['Constructors']
-
-            })
-            return driversData
-    }) ();
-}
-
-
-function getScheduleData(date="current") {
-    (async () => {        
+    return new Promise((resolve, reject) => {
         uri = "https://ergast.com/api/f1/" + date + ".json"
 
-        await got.get(uri, {responseType: 'json'})
+        got.get(uri, {responseType: 'json'})
             .then(res => {
                 scheduleData = JSON.parse(res.body) ['MRData']['RaceTable']['Races']
-
+                resolve(scheduleData)
             })
-            return scheduleData
-    }) ();
+
+    })
 }
 
 
-function getDriverStandingsData(date="current") {
-    (async () => {        
-        uri = "https://ergast.com/api/f1/" + date + "/driverStandings.json"
+const getDriversData = async(date="current") => {   
+    driversData = {}
 
-        await got.get(uri, {responseType: 'json'})
+    return new Promise((resolve, reject) => {
+        uri = "http://ergast.com/api/f1/" + date + "/drivers.json"
+
+        got.get(uri, {responseType: 'json'})
+            .then(res => {
+                driversData = JSON.parse(res.body) ['MRData']['DriverTable']['Drivers']
+                resolve(driversData)
+            })
+    })
+}
+
+
+const getConstructorsData = async(date="current") => {   
+    constructorsData = {}
+
+    return new Promise((resolve, reject) => {
+        uri = "http://ergast.com/api/f1/" + date + "/constructors.json"
+
+        got.get(uri, {responseType: 'json'})
+            .then(res => {
+                constructorsData = JSON.parse(res.body) ['MRData']['ConstructorTable']['Constructors']
+                resolve(constructorsData)
+            })
+    })
+}
+
+
+const getDriverStandingsData = async(date="current") => {
+    driverStandingsData = {}
+
+    return new Promise((resolve, reject) => {
+        uri = "https://ergast.com/api/f1/" + date + "/driverStandings.json"
+        
+        got.get(uri, {responseType: 'json'})
             .then(res => {
                 driverStandingsData = JSON.parse(res.body) ['MRData']['StandingsTable']['StandingsLists'][0]['DriverStandings']
-
+                resolve(driverStandingsData)
             })
-            return driverStandingsData
-    }) ();
+    })
 }
 
 
-function getConstructorStandingsData(date="current") {
-    (async () => {        
+const getConstructorStandingsData = async(date="current") => {
+    constructorStandingsData = {}
+
+    return new Promise((resolve, reject) => {
         uri = "https://ergast.com/api/f1/" + date + "/constructorStandings.json"
-
-        await got.get(uri, {responseType: 'json'})
+        
+        got.get(uri, {responseType: 'json'})
             .then(res => {
-                ConstructorStandingsData = JSON.parse(res.body) ['MRData']['StandingsTable']['StandingsLists'][0]['ConstructorStandings']
-
+                constructorStandingsData = JSON.parse(res.body) ['MRData']['StandingsTable']['StandingsLists'][0]['ConstructorStandings']
+                resolve(constructorStandingsData)
             })
-            return ConstructorStandingsData
-    }) ();
+    })
 }
 
+
+const getQualifyingData = async(date="current") => {
+    qualifyingData = {}
+    gpIndexesData = {}
+    totalDrivers = 0
+
+    scheduleData = await getScheduleData()
+    //console.log(scheduleData[0])
+
+    for (i = 0; i < scheduleData.length; i++) {
+        gpIndexesData[i+1] = scheduleData[i]['raceName'];
+    }
+
+    return new Promise((resolve, reject) => {
+
+        for(var key in gpIndexesData) {
+            uri = "http://ergast.com/api/f1/current/" + key + "/qualifying.json"
+
+            got.get(uri, {responseType: 'json'})
+                .then(res => {
+
+                    totalDrivers = JSON.parse(res.body) ['MRData']['total']
+                        
+                    if (totalDrivers > 0) {
+                        //console.log(totalDrivers)
+
+                        for (i = 0; i <= totalDrivers - 1; i++) {
+                            qualifyingData[JSON.parse(res.body) ['MRData']['RaceTable']['Races'][0]['QualifyingResults'][i]['Driver']['driverId']] = JSON.parse(res.body) ['MRData']['RaceTable']['Races'][0]['QualifyingResults'][i]
+                        }
+                        resolve(qualifyingData)
+                    }
+                        
+                }) 
+        }
+    })
+}
+
+//console.log(await getScheduleData())
+//console.log(await getSeasonsData(5))
+//console.log(await getDriversData())
+//console.log(await getConstructorsData())
+//console.log(await getDriverStandingsData())
+//console.log(await getConstructorStandingsData())
+
+getQualifyingData()
 
 module.exports = {
     SeasonsData              : getSeasonsData                ,
@@ -107,5 +161,6 @@ module.exports = {
     ConstructorsData         : getConstructorsData           ,
     ScheduleData             : getScheduleData               ,
     DriverStandingsData      : getDriverStandingsData        ,
-    ConstructorStandingsData : getConstructorStandingsData
+    ConstructorStandingsData : getConstructorStandingsData   ,
+    QualifyingData           : getQualifyingData
 }

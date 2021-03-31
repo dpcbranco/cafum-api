@@ -5,9 +5,13 @@ const initializeDatabase = require('./database')
 const indexRouter = require('../routes/index');
 const usersRouter = require('../routes/users');
 
+var apiRequester = require('./api-caller')
+
 const app = express();
 
-initializeDatabase("mongodb+srv://admin:admin@cluster0.jimdg.mongodb.net/cafum?retryWrites=true&w=majority")
+//initializeDatabase("mongodb+srv://admin:admin@cluster0.jimdg.mongodb.net/cafum?retryWrites=true&w=majority")
+
+
 app.use(logger('dev'));
 app.use(express.json());
 
