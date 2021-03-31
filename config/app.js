@@ -3,8 +3,9 @@ const logger = require('morgan');
 const initializeDatabase = require('./database')
 
 const indexRouter = require('../routes/index');
-const usersRouter = require('../routes/users');
+const usersRouter = require('../routes/users.router');
 const pilotsRouter = require('../routes/pilotsRouter')
+
 
 const app = express();
 
