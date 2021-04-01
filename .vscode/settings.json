@@ -1,0 +1,5 @@
+{
+    "prettier.configPath": ".prettierrc",
+    "prettier.endOfLine": "crlf",
+    "prettier.tabWidth": 4
+}
