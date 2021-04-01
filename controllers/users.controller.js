@@ -1,7 +1,5 @@
-const User = require("../models/User");
-const mongoose = require("mongoose");
 const cryptography = require("../utils/cryptography.util");
-const userModel = mongoose.model("User", User, "users");
+const usersService = require("../services/users.service");
 
 const _login = async (req, res) => {
     const username = req.body.username;
@@ -13,7 +11,7 @@ const _login = async (req, res) => {
         });
     }
 
-    const user = await userModel.findOne({ username });
+    const user = await usersService.findByUsername({ username });
 
     if (!user) return res.status(404).send({ message: "Username not found" });
 
@@ -37,20 +35,20 @@ const _signup = async (req, res) => {
         });
     }
 
-    let user = await userModel.findOne({ username });
+    let user = await usersService.findByUsername({ username });
 
     if (user)
         return res.status(409).send({ message: "User already existent." });
 
     const encryptedPassword = cryptography.encrypt(password);
 
-    user = await userModel.create({
-        username,
-        password: encryptedPassword.content,
-        iv: encryptedPassword.iv,
-    });
-
-    return res.status(200).send(user);
+    return await res.status(200).send(
+        usersService.create({
+            username,
+            password: encryptedPassword.content,
+            iv: encryptedPassword.iv,
+        })
+    );
 };
 
 module.exports = {

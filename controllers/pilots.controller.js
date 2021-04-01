@@ -1,12 +1,12 @@
-const mongoose = require('mongoose')
-const Pilot = require("../models/Pilot")
+const pilotsService = require("../services/pilots.service");
 
 const _getAllPilots = async (req, res) => {
-    const pilotSchema = mongoose.model('Pilot', Pilot, "pilots")
-    const pilots = await pilotSchema.find().sort(req.query.orderBy ? { [req.query.orderBy]: req.query.desc ? -1 : 1 } : {})
-    return res.status(200).send(pilots)
-}
+    const sort = req.query.orderBy
+        ? { [req.query.orderBy]: req.query.desc ? -1 : 1 }
+        : {};
+    return res.status(200).send(await pilotsService.findPilots({}, sort));
+};
 
 module.exports = {
-    getAllPilots: _getAllPilots
-}
+    getAllPilots: _getAllPilots,
+};
