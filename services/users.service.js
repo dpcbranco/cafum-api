@@ -6,8 +6,8 @@ const _findByUsername = async (username) => {
     return await userModel.findOne({ username });
 };
 
-const create = async (user) => {
+const _create = async (user) => {
     return await userModel.create(user);
 };
 
-module.exports = { findByUsername: _findByUsername };
+module.exports = { findByUsername: _findByUsername, create: _create };
