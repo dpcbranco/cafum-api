@@ -1,5 +1,4 @@
 const got = require('got');
-const { response } = require('./app');
 
 
 const getSeasonsData = async(seasonRetroNumber) => {
