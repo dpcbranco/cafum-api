@@ -15,7 +15,9 @@
             "skipFiles": [
                 "<node_internals>/**"
             ],
-            "type": "pwa-node"
+            "type": "pwa-node",
+            "envFile": "${workspaceFolder}/.env",
+            "args": ["--r", "dotenv-safe/config"]
         }
                
     ]
