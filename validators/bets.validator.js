@@ -18,16 +18,15 @@ const _validateNewBet = async (req, res, next) => {
     const gp = await gpService.findById(req.body.gpId);
     if (!gp) return res.status(404).send({ error: "GP not found." });
 
-    let qualifying = req.body.qualifying;
+    let pilotBets = [];
 
     // Validates pilot list from qualifying bet
-    // TODO: Unify qualifying and race pilot list
-    if (req.body.qualifying) {
+    if (req.body.pilotBets) {
         const pilotsNotFound = [];
-        const pilotPromises = await req.body.qualifying.map(async (pilot) => {
+        const pilotPromises = await req.body.pilotBets.map(async (pilot) => {
             const pilotDB = await pilotService.findPilotById(pilot.id);
             if (!pilotDB) pilotsNotFound.add(pilot.id);
-            return { id: pilotDB._id, position: pilot.position };
+            return { id: pilotDB._id, ...pilot };
         });
         if (pilotsNotFound.length > 0)
             return res.status(404).send({
@@ -35,27 +34,7 @@ const _validateNewBet = async (req, res, next) => {
                 pilotsNotFound,
             });
         await Promise.all(pilotPromises).then((results) => {
-            qualifying = results;
-        });
-    }
-
-    let race = req.body.race;
-
-    // Validates pilot list from racing bet
-    if (req.body.race) {
-        const pilotsNotFound = [];
-        const pilotPromises = await req.body.race.map(async (pilot) => {
-            const pilotDB = await pilotService.findPilotById(pilot.id);
-            if (!pilotDB) pilotsNotFound.add(pilot.id);
-            return { id: pilotDB._id, position: pilot.position };
-        });
-        if (pilotsNotFound.length > 0)
-            return res.status(404).send({
-                error: "Pilots not found in database",
-                pilotsNotFound,
-            });
-        await Promise.all(pilotPromises).then((results) => {
-            race = results;
+            pilotBets = results;
         });
     }
 
@@ -72,8 +51,7 @@ const _validateNewBet = async (req, res, next) => {
 
     req.body = {
         ...betFilter,
-        qualifying,
-        race,
+        pilotBets,
     };
     next();
 };
