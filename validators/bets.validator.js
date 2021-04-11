@@ -4,12 +4,43 @@ const betService = require("../services/bets.services");
 const pilotService = require("../services/pilots.service");
 
 const _validateNewBet = async (req, res, next) => {
-    let pilotBets = req.body.pilotBets ? req.body.pilotBets : [];
     const errors = [];
 
     // Validates mandatory fields sent in the request body
     if (!req.body.gpId) errors.push({ message: "gpId not informed" });
     if (!req.body.userId) errors.push({ message: "userId not informed" });
+
+    // Validates existence of user reference in database
+    const user = await userService.findById(req.body.userId);
+    if (!user) return res.status(404).send({ message: "User not found." });
+
+    // Validates existence of GP reference in database
+    const gp = await gpService.findById(req.body.gpId);
+    if (!gp) return res.status(404).send({ message: "GP not found." });
+
+    const betFilter = {
+        userId: user._id,
+        gpId: gp._id,
+    };
+
+    const bet = await betService.findBet(betFilter);
+
+    if (bet)
+        return res
+            .status(409)
+            .send({ message: "Bet already created for this GP." });
+
+    req.body = {
+        ...req.body,
+        ...betFilter,
+    };
+    next();
+};
+
+const _validatePilotsRequest = async (req, res, next) => {
+    let pilotBets = req.body.pilotBets;
+
+    const errors = [];
 
     // Validates duplicated pilots
     const duplicatedPilots = [];
@@ -66,14 +97,6 @@ const _validateNewBet = async (req, res, next) => {
 
     if (errors.length > 0) return res.status(400).send({ errors });
 
-    // Validates existence of user reference in database
-    const user = await userService.findById(req.body.userId);
-    if (!user) return res.status(404).send({ message: "User not found." });
-
-    // Validates existence of GP reference in database
-    const gp = await gpService.findById(req.body.gpId);
-    if (!gp) return res.status(404).send({ message: "GP not found." });
-
     // Validates existence of pilot in database
     const pilotsNotFound = [];
     const pilotPromises = await pilotBets.map(async (pilot) => {
@@ -90,24 +113,15 @@ const _validateNewBet = async (req, res, next) => {
         pilotBets = results;
     });
 
-    const betFilter = {
-        userId: user._id,
-        gpId: gp._id,
-    };
-
-    const bet = await betService.findBet(betFilter);
-    if (bet)
-        return res
-            .status(409)
-            .send({ message: "Bet already created for this GP." });
-
     req.body = {
-        ...betFilter,
+        ...req.body,
         pilotBets,
     };
+
     next();
 };
 
 module.exports = {
     validateNewBet: _validateNewBet,
+    validatePilotsRequest: _validatePilotsRequest,
 };
