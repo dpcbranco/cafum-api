@@ -9,6 +9,10 @@ router.post(
     betValidator.validateNewBet,
     betsController.postNewBet
 );
-router.patch("/:betId", betsController.patchBet);
+router.patch(
+    "/:betId",
+    betValidator.validatePilotsRequest,
+    betsController.patchBet
+);
 
 module.exports = router;

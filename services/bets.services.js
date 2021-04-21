@@ -14,7 +14,14 @@ const _createBet = async (bet) => {
     return await betModel.create(bet);
 };
 
+const _updateBet = async (id, patch) => {
+    const bet = await betModel.findById(id);
+    await bet.update(patch);
+    return await betModel.findById(id);
+};
+
 module.exports = {
     findBet: _findBet,
     createBet: _createBet,
+    updateBet: _updateBet,
 };
