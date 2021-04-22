@@ -5,6 +5,7 @@
     "version": "0.2.0",
     "configurations": [
         {
+<<<<<<< HEAD
             "type": "node",
             "request": "launch",
             "name": "Node: Nodemon",
@@ -16,5 +17,22 @@
                 "<node_internals>/**"
             ]
         }
+=======
+            "console": "integratedTerminal",
+            "internalConsoleOptions": "neverOpen",
+            "name": "nodemon",
+            "program": "${workspaceFolder}/server.js",
+            "request": "launch",
+            "restart": true,
+            "runtimeExecutable": "nodemon",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "type": "pwa-node",
+            "envFile": "${workspaceFolder}/.env",
+            "args": ["--r", "dotenv-safe/config"]
+        }
+               
+>>>>>>> 0a24e998dfaa41dbd1835bee72a62889c6c3a4fb
     ]
 }

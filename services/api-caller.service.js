@@ -157,17 +157,6 @@ const getConstructorStandingsData = async(season="current") => {
     })
 }
 
-
-const testDataReceived = async() => {
-    //console.log(await getScheduleData())
-    //console.log(await getSeasonsData(5))
-    //console.log(await getDriversData())
-    //console.log(await getConstructorsData())
-    //console.log(await getDriverStandingsData())
-    //console.log(await getConstructorStandingsData())
-}
-
-
 module.exports = {
     SeasonsData              : getSeasonsData                ,
     DriversData              : getDriversData                ,
