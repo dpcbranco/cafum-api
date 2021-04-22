@@ -1,4 +1,5 @@
 const cryptography = require("../utils/cryptography.util");
+const auth = require("../utils/auth.util");
 const usersService = require("../services/users.service");
 
 const _login = async (req, res) => {
@@ -11,7 +12,7 @@ const _login = async (req, res) => {
         });
     }
 
-    const user = await usersService.findByUsername({ username });
+    const user = await usersService.findByUsername(username);
 
     if (!user) return res.status(404).send({ message: "Username not found" });
 
@@ -21,7 +22,7 @@ const _login = async (req, res) => {
     });
 
     return decryptedPassword === password
-        ? res.status(200).send({ message: "Login successful!" })
+        ? res.status(200).send({ token: auth.generateToken(user._id) })
         : res.status(401).send({ message: "Password incorrect" });
 };
 
