@@ -7,8 +7,6 @@ const usersRouter = require('../routes/users.router');
 const pilotsRouter = require('../routes/pilots.router')
 
 
-var apiRequester = require('./api-caller')
-
 const app = express();
 
 //initializeDatabase("mongodb+srv://admin:admin@cluster0.jimdg.mongodb.net/cafum?retryWrites=true&w=majority")
