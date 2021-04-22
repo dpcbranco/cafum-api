@@ -5,6 +5,19 @@
     "version": "0.2.0",
     "configurations": [
         {
+<<<<<<< HEAD
+            "type": "node",
+            "request": "launch",
+            "name": "Node: Nodemon",
+            "runtimeExecutable": "nodemon",
+            "program": "${workspaceFolder}/bin/www",
+            "restart": true,
+            "console": "integratedTerminal",
+            "skipFiles": [
+                "<node_internals>/**"
+            ]
+        }
+=======
             "console": "integratedTerminal",
             "internalConsoleOptions": "neverOpen",
             "name": "nodemon",
@@ -20,5 +33,6 @@
             "args": ["--r", "dotenv-safe/config"]
         }
                
+>>>>>>> 0a24e998dfaa41dbd1835bee72a62889c6c3a4fb
     ]
 }
