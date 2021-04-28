@@ -1,6 +1,6 @@
-const cryptography = require("../utils/cryptography.util");
-const auth = require("../utils/auth.util");
-const usersService = require("../services/users.service");
+const cryptography = require('../utils/cryptography.util');
+const auth = require('../utils/auth.util');
+const usersService = require('../services/users.service');
 
 const _login = async (req, res) => {
     const username = req.body.username;
@@ -8,13 +8,13 @@ const _login = async (req, res) => {
 
     if (!username || !password) {
         res.status(400).send({
-            error: "Username or password not informed",
+            error: 'Username or password not informed',
         });
     }
 
     const user = await usersService.findByUsername(username);
 
-    if (!user) return res.status(404).send({ message: "Username not found" });
+    if (!user) return res.status(404).send({ message: 'Username not found' });
 
     const decryptedPassword = cryptography.decrypt({
         content: user.password,
@@ -23,7 +23,7 @@ const _login = async (req, res) => {
 
     return decryptedPassword === password
         ? res.status(200).send({ token: auth.generateToken(user._id) })
-        : res.status(401).send({ message: "Password incorrect" });
+        : res.status(401).send({ message: 'Incorrect password' });
 };
 
 const _signup = async (req, res) => {
@@ -32,14 +32,14 @@ const _signup = async (req, res) => {
 
     if (!username || !password) {
         res.status(400).send({
-            error: "Username or password not informed",
+            error: 'Username or password not informed',
         });
     }
 
     let user = await usersService.findByUsername({ username });
 
     if (user)
-        return res.status(409).send({ message: "User already existent." });
+        return res.status(409).send({ message: 'User already existent.' });
 
     const encryptedPassword = cryptography.encrypt(password);
 

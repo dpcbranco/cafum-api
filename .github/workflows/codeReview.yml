@@ -3,8 +3,7 @@ name: CI
 
 # Controls when the action will run. 
 on:
-  # Triggers the workflow on push or pull request events but only for the master branch
-  push:
+  pull_request:
     branches: [ master ]
     
   # Allows you to run this workflow manually from the Actions tab
@@ -12,8 +11,8 @@ on:
   
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "deploy"
-  deploy:
+  # This workflow contains a single job called "build"
+  code_review:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
 
@@ -32,9 +31,5 @@ jobs:
       run: npm install --save
             
     # Deploy application on Google App Engine
-    - name: Deploy in Google App Engine
-      id: deploy
-      uses: google-github-actions/deploy-appengine@main
-      with:
-          credentials: ${{ secrets.GCP_SA_KEY }}
-          version: 0.1.0
+    - name: ESLint Verification
+      uses: stefanoeb/eslint-action@1.0.2

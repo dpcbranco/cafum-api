@@ -1,6 +1,6 @@
-const betService = require("../services/bets.services");
+const betService = require('../services/bets.services');
 
-const _getBetByUser = async (req, res) => {
+const _getBetByUser = async (req) => {
     const betFilter = { userId: req.params.userId };
     if (req.query.gp) betFilter.gpId = req.query.gp;
     return await betService.findBet(betFilter);

@@ -1,4 +1,4 @@
-const Schema = require('mongoose').Schema
+const Schema = require('mongoose').Schema;
 
 module.exports = new Schema({
     name: String,
@@ -6,4 +6,4 @@ module.exports = new Schema({
     number: Number,
     team: String,
     points: Number
-})
+});
