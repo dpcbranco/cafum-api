@@ -31,7 +31,7 @@ jobs:
         node-version: 14.x
     # Install project requirements
     - name: Install requirements
-      run: npm clean-install --save
+      run: npm install --save
             
     # Deploy application on Google App Engine
     - name: Deploy in Google App Engine
