@@ -1,4 +1,4 @@
-const pilotsService = require("../services/pilots.service");
+const pilotsService = require('../services/pilots.service');
 
 const _getAllPilots = async (req, res) => {
     const sort = req.query.orderBy

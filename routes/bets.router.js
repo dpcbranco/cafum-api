@@ -1,16 +1,16 @@
-const router = require("express").Router();
-const betValidator = require("../validators/bets.validator");
-const betsController = require("../controllers/bets.controller");
+const router = require('express').Router();
+const betValidator = require('../validators/bets.validator');
+const betsController = require('../controllers/bets.controller');
 
-router.get("/user/:userId", betsController.getBetByUser);
+router.get('/user/:userId', betsController.getBetByUser);
 router.post(
-    "/new",
+    '/new',
     betValidator.validatePilotsRequest,
     betValidator.validateNewBet,
     betsController.postNewBet
 );
 router.patch(
-    "/:betId",
+    '/:betId',
     betValidator.validatePilotsRequest,
     betsController.patchBet
 );
