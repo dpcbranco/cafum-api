@@ -3,7 +3,9 @@ const secretKey = process.env.SECRET_KEY;
 const userService = require("../services/users.service");
 
 const _generateToken = (id) => {
-    return jwt.sign({ id }, secretKey);
+    return jwt.sign({ id }, secretKey, {
+        expiresIn: process.env.TOKEN_EXPIRATION_TIME,
+    });
 };
 
 const _validateToken = async (req, res, next) => {
