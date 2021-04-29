@@ -3,7 +3,7 @@ const logger = require('morgan');
 const initializeDatabase = require('./database');
 const authUtils = require('../utils/auth.util');
 
-const authRouter = require('../routes/users.router');
+const authRouter = require('../routes/auth.router');
 const pilotsRouter = require('../routes/pilots.router');
 const betsRouter = require('../routes/bets.router');
 
