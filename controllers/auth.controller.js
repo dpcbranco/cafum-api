@@ -1,6 +1,6 @@
 const cryptography = require('../utils/cryptography.util');
 const auth = require('../utils/auth.util');
-const usersService = require('../services/users.service');
+const authService = require('../services/auth.service');
 
 const _login = async (req, res) => {
     const username = req.body.username;
@@ -12,7 +12,7 @@ const _login = async (req, res) => {
         });
     }
 
-    const user = await usersService.findByUsername(username);
+    const user = await authService.findByUsername(username);
 
     if (!user) return res.status(404).send({ message: 'Username not found' });
 
@@ -36,7 +36,7 @@ const _signup = async (req, res) => {
         });
     }
 
-    let user = await usersService.findByUsername({ username });
+    let user = await authService.findByUsername({ username });
 
     if (user)
         return res.status(409).send({ message: 'User already existent.' });
@@ -44,7 +44,7 @@ const _signup = async (req, res) => {
     const encryptedPassword = cryptography.encrypt(password);
 
     return await res.status(200).send(
-        usersService.create({
+        authService.create({
             username,
             password: encryptedPassword.content,
             iv: encryptedPassword.iv,

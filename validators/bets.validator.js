@@ -1,4 +1,4 @@
-const userService = require('../services/users.service');
+const authService = require('../services/auth.service');
 const gpService = require('../services/gps.service');
 const betService = require('../services/bets.services');
 const pilotService = require('../services/pilots.service');
@@ -11,7 +11,7 @@ const _validateNewBet = async (req, res, next) => {
     if (!req.body.userId) errors.push({ message: 'userId not informed' });
 
     // Validates existence of user reference in database
-    const user = await userService.findById(req.body.userId);
+    const user = await authService.findById(req.body.userId);
     if (!user) return res.status(404).send({ message: 'User not found.' });
 
     // Validates existence of GP reference in database
