@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
 const secretKey = process.env.SECRET_KEY;
-const userService = require('../services/users.service');
+const authService = require('../services/auth.service');
 
 const _generateToken = (id) => {
     return jwt.sign({ id }, secretKey, {
@@ -20,7 +20,7 @@ const _validateToken = async (req, res, next) => {
                     .status(500)
                     .json({ message: 'Failed to authenticate token.' });
         const userId = decoded.id;
-        const user = await userService.findById(userId);
+        const user = await authService.findById(userId);
         if (!user)
             return res.status(401).send({ message: 'Invalid access token' });
         res.user = user;
