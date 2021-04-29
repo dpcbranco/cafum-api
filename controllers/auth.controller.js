@@ -36,7 +36,7 @@ const _signup = async (req, res) => {
         });
     }
 
-    let user = await authService.findByUsername({ username });
+    let user = await authService.findByUsername(username);
 
     if (user)
         return res.status(409).send({ message: 'User already existent.' });
