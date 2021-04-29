@@ -1,6 +1,7 @@
 const Schema = require('mongoose').Schema;
 
 module.exports = new Schema({
+    name: { type: String, unique: true },
     pointSystem: {
         qualiCorrect: {
             type: Number,
