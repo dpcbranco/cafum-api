@@ -1,17 +1,19 @@
 const router = require('express').Router();
 const betValidator = require('../validators/bets.validator');
+const userValidator = require('../validators/user.validator');
 const betsController = require('../controllers/bets.controller');
 
 router.get('/user/:userId', betsController.getBetByUser);
 router.post(
     '/new',
-    betValidator.validatePilotsRequest,
+    userValidator.validateUserRequest,
+    betValidator.validateBetPilots,
     betValidator.validateNewBet,
     betsController.postNewBet
 );
 router.patch(
     '/:betId',
-    betValidator.validatePilotsRequest,
+    betValidator.validateBetPilots,
     betsController.patchBet
 );
 

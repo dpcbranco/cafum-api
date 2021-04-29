@@ -37,7 +37,7 @@ const _validateNewBet = async (req, res, next) => {
     next();
 };
 
-const _validatePilotsRequest = async (req, res, next) => {
+const _validateBetPilots = async (req, res, next) => {
     let pilotBets = req.body.pilotBets;
 
     const errors = [];
@@ -123,5 +123,5 @@ const _validatePilotsRequest = async (req, res, next) => {
 
 module.exports = {
     validateNewBet: _validateNewBet,
-    validatePilotsRequest: _validatePilotsRequest,
+    validateBetPilots: _validateBetPilots,
 };

@@ -3,3 +3,4 @@ service: cafum-api
 env_variables:
   SECRET_KEY: 6db7909e1acd7e2149feea4f9a2dd2e8
   PORT: 8080
+  TOKEN_EXPIRATION_TIME: 10m

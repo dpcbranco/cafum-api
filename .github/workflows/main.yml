@@ -37,3 +37,4 @@ jobs:
       uses: google-github-actions/deploy-appengine@main
       with:
           credentials: ${{ secrets.GCP_SA_KEY }}
+          version: 0.1.0

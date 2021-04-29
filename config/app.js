@@ -1,6 +1,7 @@
 const express = require('express');
 const logger = require('morgan');
 const initializeDatabase = require('./database');
+const authUtils = require('../utils/auth.util');
 
 const usersRouter = require('../routes/users.router');
 const pilotsRouter = require('../routes/pilots.router');
@@ -15,8 +16,8 @@ app.use(logger('dev'));
 app.use(express.json());
 
 app.use('/users', usersRouter);
-app.use('/pilots', pilotsRouter);
-app.use('/bets', betsRouter);
+app.use('/pilots', authUtils.validateToken, pilotsRouter);
+app.use('/bets', authUtils.validateToken, betsRouter);
 app.use(function (req, res) {
     res.status(404).send({ error: 'Endpoint Not Found!' });
 });
