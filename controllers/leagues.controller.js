@@ -10,8 +10,9 @@ const _createLeague = async (req, res) => {
 };
 
 const _findLeague = async (req, res) => {
-    const league = leagueService.findLeagueById(req.params.id);
+    const league = await leagueService.findLeagueById(req.params.id);
     if (!league) return res.status(404).send({ message: 'League not found' });
+    return res.status(200).send(league);
 };
 
 module.exports = {
