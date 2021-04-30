@@ -7,7 +7,7 @@ const _findLeagueById = async (id) => {
 };
 
 const _findLeagueByName = async (name) => {
-    return await leagueSchema.find({ name });
+    return await leagueSchema.findOne({ name });
 };
 
 const _createLeague = async (league) => {
