@@ -22,7 +22,7 @@ app.use('/pilots', authUtils.validateToken, pilotsRouter);
 app.use('/bets', authUtils.validateToken, betsRouter);
 app.use('/leagues', authUtils.validateToken, leagueRouter);
 app.use(function (req, res) {
-    res.status(404).send({ error: 'Endpoint Not Found!' });
+    return res.status(404).send({ error: 'Endpoint Not Found!' });
 });
 
 module.exports = app;
