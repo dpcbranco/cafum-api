@@ -27,7 +27,9 @@ const _addUser = async (req, res) => {
         message: 'User already member of informed league.'
     });
 
-    league.members.push({ user: user._id });
+    league.members.push({
+        user: user._id, owner: req.query.owner, manager: req.query.manager 
+    });
 
     await leagueService.updateLeague(req.params.leagueId, {
         members: league.members
