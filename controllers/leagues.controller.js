@@ -11,19 +11,11 @@ const _createLeague = async (req, res) => {
 };
 
 const _findLeague = async (req, res) => {
-    const league = await leagueService.findLeagueById(req.params.id);
-    if (!league) return res.status(404).send({
-        message: 'League not found'
-    });
-    return res.status(200).send(league);
+    return res.status(200).send(res.league);
 };
 
 const _addUser = async (req, res) => {
-    // Validates existence of league
-    const league = await leagueService.findLeagueById(req.params.leagueId);
-    if (!league) return res.status(404).send({
-        message: 'League not found'
-    });
+    const league = res.league;
 
     // Validates existence of user reference in database
     const user = await userService.findById(req.params.userId);
