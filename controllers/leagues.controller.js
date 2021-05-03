@@ -1,12 +1,7 @@
 const leagueService = require('../services/leagues.service');
-const userService = require('../services/users.service');
+const authService = require('../services/auth.service');
 
 const _createLeague = async (req, res) => {
-    if (await leagueService.findLeagueByName(req.body.name))
-        return res.status(409).send({
-            message: 'League already existent with this name.'
-        });
-
     return res.status(200).send(await leagueService.createLeague(
         { ...req.body, members: [{ user: res.user._id, owner: true }] }
     ));
@@ -20,7 +15,7 @@ const _addUser = async (req, res) => {
     const league = res.league;
 
     // Validates existence of user reference in database
-    const user = await userService.findById(req.params.userId);
+    const user = await authService.findById(req.params.userId);
     if (!user) return res.status(404).send({
         message: 'User not found.'
     });
