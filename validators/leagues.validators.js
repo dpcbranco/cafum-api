@@ -10,6 +10,24 @@ const _validateExistingLeague = async (req, res, next) => {
     next();
 };
 
+const _validateNewLeague = async (req, res, next) => {
+
+    if (!req.body.name) return res.status(400).send(
+        { message: 'Name of the league not informed' }
+    );
+
+    if (!req.body.pointSystem) return res.status(400).send(
+        { message: 'Point system not informed.' }
+    );
+
+    if (await leagueService.findLeagueByName(req.body.name))
+        return res.status(409).send({
+            message: 'League already existent with this name.'
+        });
+
+    next();
+};
+
 const _validateManager = async (req, res, next) => {
     const managers = res.league.members.filter(
         (member) => member.owner || member.manager
@@ -27,5 +45,6 @@ const _validateManager = async (req, res, next) => {
 
 module.exports = {
     validateExistingLeague: _validateExistingLeague,
+    validateNewLeague: _validateNewLeague,
     validateManager: _validateManager
 };
