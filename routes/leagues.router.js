@@ -19,5 +19,11 @@ router.post(
     leagueValidator.validateManager,
     leagueController.addUser
 );
+router.delete(
+    '/:leagueId/user/:userId',
+    leagueValidator.validateExistingLeague,
+    leagueValidator.validateManager,
+    leagueController.removeUser
+);
 
 module.exports = router;
