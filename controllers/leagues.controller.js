@@ -7,7 +7,9 @@ const _createLeague = async (req, res) => {
             message: 'League already existent with this name.'
         });
 
-    return res.status(200).send(await leagueService.createLeague(req.body));
+    return res.status(200).send(await leagueService.createLeague(
+        { ...req.body, members: [{ user: res.user._id, owner: true }] }
+    ));
 };
 
 const _findLeague = async (req, res) => {
