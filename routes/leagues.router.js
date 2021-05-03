@@ -13,7 +13,7 @@ router.get(
     leagueValidator.validateExistingLeague,
     leagueController.findLeague
 );
-router.patch(
+router.post(
     '/:leagueId/user/add/:userId',
     leagueValidator.validateExistingLeague,
     leagueValidator.validateManager,
