@@ -29,8 +29,8 @@ module.exports = new Schema({
             type: Schema.Types.ObjectId,
             ref: 'User'
         },
-        owner: Boolean,
-        manager: Boolean
+        owner: { type: Boolean, default: false },
+        manager: { type: Boolean, default: false }
     }]
 
 }, {
