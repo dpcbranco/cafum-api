@@ -16,10 +16,11 @@ const _validateManager = async (req, res, next) => {
     );
 
     // Verifies if user is manager or owner of the league
-    if (managers.none((manager) => manager.id.toString() === res.user._id))
-        return res.status(401).send(
-            { message: 'User not authorized to perform this action' }
-        );
+    if (!managers.some(
+        (manager) => manager.user.toString() === res.user._id.toString())
+    ) return res.status(401).send(
+        { message: 'User not authorized to perform this action' }
+    );
     
     next();
 };
