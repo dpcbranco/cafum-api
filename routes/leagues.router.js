@@ -14,7 +14,7 @@ router.get(
     leagueController.findLeague
 );
 router.post(
-    '/:leagueId/user/add/:userId',
+    '/:leagueId/user/:userId',
     leagueValidator.validateExistingLeague,
     leagueValidator.validateManager,
     leagueController.addUser
