@@ -23,7 +23,8 @@
         ],
         "max-len": [
             "error",
-            80
+            80,
+            { "ignoreComments": true }
         ],
         "object-curly-spacing": [
             "error",
