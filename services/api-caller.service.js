@@ -1,3 +1,4 @@
+/* eslint-disable */
 const got = require('got');
 
 /**
@@ -12,14 +13,14 @@ const getSeasonsData = async(seasonRetroNumber) => {
     return new Promise((resolve) => {
         const uri = 'https://ergast.com/api/f1/seasons.json';
         
-        got.get(uri, {responseType: 'json'})
+        got.get(uri, { responseType: 'json' })
             .then(res => {
                 let seasonsData = JSON.parse(res.body) ['MRData'];
                 const totalSeasons = seasonsData['total'];
                 const seasonsRetroactive = totalSeasons - seasonRetroNumber;
 
                 const uri = `${uri}?limit=${seasonRetroNumber}&offset=${seasonsRetroactive}`;
-                got.get(uri, {responseType: 'json'})
+                got.get(uri, { responseType: 'json' })
 
                     .then(res => {
                         seasonsData = JSON.parse(res.body) ['MRData'];
@@ -45,7 +46,7 @@ const getScheduleData = async(season='current') => {
     return new Promise((resolve) => {
         const uri = `https://ergast.com/api/f1/${season}.json`;
 
-        got.get(uri, {responseType: 'json'})
+        got.get(uri, { responseType: 'json' })
             .then(res => {
                 resolve(JSON.parse(res.body) ['MRData']['RaceTable']['Races']);
             });
@@ -65,7 +66,7 @@ const getDriversData = async(season='current', driver='-1') => {
     return new Promise((resolve) => {
         const uri = `http://ergast.com/api/f1/${season}/drivers.json`;
 
-        got.get(uri, {responseType: 'json'})
+        got.get(uri, { responseType: 'json' })
             .then(res => {
                 if (driver == '-1'){
                     driversData = JSON.parse(res.body) ['MRData']['DriverTable']['Drivers'];
@@ -95,7 +96,7 @@ const getConstructorsData = async(season='current', constructor='-1') => {
     return new Promise((resolve) => {
         const uri = `http://ergast.com/api/f1/${season}/constructors.json`;
 
-        got.get(uri, {responseType: 'json'})
+        got.get(uri, { responseType: 'json' })
             .then(res => {
                 if (constructor == '-1'){
                     constructorsData = JSON.parse(res.body) ['MRData']['ConstructorTable']['Constructors'];
@@ -123,7 +124,7 @@ const getDriverStandingsData = async(season='current') => {
     return new Promise((resolve) => {
         const uri = `https://ergast.com/api/f1/${season}/driverStandings.json`;
         
-        got.get(uri, {responseType: 'json'})
+        got.get(uri, { responseType: 'json' })
             .then(res => {
                 resolve(JSON.parse(res.body) ['MRData']['StandingsTable']['StandingsLists'][0]['DriverStandings']);
             });
@@ -142,7 +143,7 @@ const getConstructorStandingsData = async(season='current') => {
     return new Promise((resolve) => {
         const uri = `https://ergast.com/api/f1/${season}/constructorStandings.json`;
         
-        got.get(uri, {responseType: 'json'})
+        got.get(uri, { responseType: 'json' })
             .then(res => {
                 constructorStandingsData = JSON.parse(res.body) ['MRData']['StandingsTable']['StandingsLists'][0]['ConstructorStandings'];
                 resolve(constructorStandingsData);

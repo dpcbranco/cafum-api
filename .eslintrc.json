@@ -20,6 +20,15 @@
         "semi": [
             "error",
             "always"
+        ],
+        "max-len": [
+            "error",
+            80,
+            { "ignoreComments": true }
+        ],
+        "object-curly-spacing": [
+            "error",
+            "always"
         ]
     }
 }
