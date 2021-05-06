@@ -3,6 +3,8 @@ const router = require('express').Router();
 const leagueController = require('../controllers/leagues.controller');
 const leagueValidator = require('../validators/leagues.validators');
 
+const betsRouter = require('./bets.router');
+
 router.post(
     '/new',
     leagueValidator.validateNewLeague,
@@ -24,6 +26,12 @@ router.delete(
     leagueValidator.validateLeagueExistence,
     leagueValidator.validateManager,
     leagueController.removeUser
+);
+
+router.use(
+    '/:leagueId/bets',
+    leagueValidator.validateLeagueExistence,
+    betsRouter
 );
 
 module.exports = router;
