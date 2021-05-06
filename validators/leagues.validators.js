@@ -44,7 +44,7 @@ const _validateManager = async (req, res, next) => {
 };
 
 module.exports = {
-    validateExistingLeague: _validateExistingLeague,
+    validateLeagueExistence: _validateExistingLeague,
     validateNewLeague: _validateNewLeague,
     validateManager: _validateManager
 };

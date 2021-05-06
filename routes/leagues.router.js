@@ -10,18 +10,18 @@ router.post(
 );
 router.get(
     '/:leagueId',
-    leagueValidator.validateExistingLeague,
+    leagueValidator.validateLeagueExistence,
     leagueController.findLeague
 );
 router.post(
     '/:leagueId/user/:userId',
-    leagueValidator.validateExistingLeague,
+    leagueValidator.validateLeagueExistence,
     leagueValidator.validateManager,
     leagueController.addUser
 );
 router.delete(
     '/:leagueId/user/:userId',
-    leagueValidator.validateExistingLeague,
+    leagueValidator.validateLeagueExistence,
     leagueValidator.validateManager,
     leagueController.removeUser
 );
