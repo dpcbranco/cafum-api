@@ -1,4 +1,3 @@
-const gpService = require('../services/gps.service');
 const betService = require('../services/bets.services');
 const pilotService = require('../services/pilots.service');
 
@@ -12,13 +11,9 @@ const _validateNewBet = async (req, res, next) => {
 
     if (errors.length > 0) return res.status(400).send({ errors });
 
-    // Validates existence of GP reference in database
-    const gp = await gpService.findById(req.body.gpId);
-    if (!gp) return res.status(404).send({ message: 'GP not found.' });
-
     const betFilter = {
         userId: res.user._id,
-        gpId: gp._id,
+        gpId: res.gp._id,
     };
 
     const bet = await betService.findBet(betFilter);
