@@ -6,12 +6,16 @@ const _validateNewBet = async (req, res, next) => {
 
     // Validates mandatory fields sent in the request body
     if (!req.body.gpId) errors.push({ message: 'gpId not informed' });
-    if (!req.body.leagueId) errors.push({ message: 'userId not informed' });
 
     if (errors.length > 0) return res.status(400).send({ errors });
 
+    next();
+};
+
+const _validateBetConflict = async (req, res, next) => {
     const betFilter = {
         userId: res.user._id,
+        leagueId: res.league._id,
         gpId: res.gp._id,
     };
 
@@ -26,6 +30,7 @@ const _validateNewBet = async (req, res, next) => {
         ...req.body,
         ...betFilter,
     };
+
     next();
 };
 
@@ -115,5 +120,6 @@ const _validateBetPilots = async (req, res, next) => {
 
 module.exports = {
     validateNewBet: _validateNewBet,
+    validateBetConflict: _validateBetConflict,
     validateBetPilots: _validateBetPilots,
 };

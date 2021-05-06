@@ -8,6 +8,7 @@ router.get('/user/:userId', betsController.getBetByUser);
 router.post(
     '/new',
     betValidator.validateNewBet,
+    betValidator.validateBetConflict,
     gpValidator.validateGpExistence,
     leagueValidator.validateLeagueExistence,
     betValidator.validateBetPilots,
