@@ -6,7 +6,9 @@ const _validateNewBet = async (req, res, next) => {
 
     // Validates mandatory fields sent in the request body
     if (!req.body.gpId) errors.push({ message: 'gpId not informed' });
-
+    if (req.body.pilotBets) {
+        errors.push(validatePilotDuplicates(req.body.pilotBets));
+    }
     if (errors.length > 0) return res.status(400).send({ errors });
 
     next();
@@ -34,8 +36,7 @@ const _validateBetConflict = async (req, res, next) => {
     next();
 };
 
-const _validateBetPilots = async (req, res, next) => {
-    let pilotBets = req.body.pilotBets;
+const validatePilotDuplicates = (pilotBets) => {
 
     const errors = [];
 
@@ -91,8 +92,12 @@ const _validateBetPilots = async (req, res, next) => {
             message: 'Race bet position duplicated',
             duplicated: duplicatedRace,
         });
+    
+    return errors;
+};
 
-    if (errors.length > 0) return res.status(400).send({ errors });
+const _validateBetPilots = async (req, res, next) => {
+    let pilotBets = req.body.pilotBets;
 
     // Validates existence of pilot in database
     const pilotsNotFound = [];
