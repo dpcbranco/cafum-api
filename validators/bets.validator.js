@@ -9,6 +9,9 @@ const _validateNewBet = async (req, res, next) => {
     // Validates mandatory fields sent in the request body
     if (!req.body.gpId) errors.push({ message: 'gpId not informed' });
     if (!req.body.userId) errors.push({ message: 'userId not informed' });
+    if (!req.body.leagueId) errors.push({ message: 'userId not informed' });
+
+    if (errors.length > 0) return res.status(400).send({ errors });
 
     // Validates existence of user reference in database
     const user = await authService.findById(req.body.userId);
