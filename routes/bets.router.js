@@ -1,5 +1,6 @@
 const router = require('express').Router();
 const betValidator = require('../validators/bets.validator');
+const leagueValidator = require('../validators/leagues.validators');
 const userValidator = require('../validators/user.validator');
 const betsController = require('../controllers/bets.controller');
 
@@ -9,6 +10,7 @@ router.post(
     userValidator.validateUserRequest,
     betValidator.validateBetPilots,
     betValidator.validateNewBet,
+    leagueValidator.validateExistingLeague,
     betsController.postNewBet
 );
 router.patch(
