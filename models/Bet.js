@@ -15,6 +15,7 @@ module.exports = new Schema(
     {
         userId: { type: Schema.Types.ObjectId, ref: 'User' },
         gpId: { type: Schema.Types.ObjectId, ref: 'Gp' },
+        leagueId: { type: Schema.Types.ObjectId, ref: 'League' },
         pilotBets: [PilotBet],
         totalPoints: { type: Number, default: 0 },
     },
