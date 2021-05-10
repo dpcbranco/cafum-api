@@ -7,7 +7,9 @@ const _validateNewBet = async (req, res, next) => {
     // Validates mandatory fields sent in the request body
     if (!req.body.gpId) errors.push({ message: 'gpId not informed' });
     if (req.body.pilotBets) {
-        errors.push(validatePilotDuplicates(req.body.pilotBets));
+        validatePilotDuplicates(req.body.pilotBets).forEach(
+            error => errors.push(error)
+        );
     }
     if (errors.length > 0) return res.status(400).send({ errors });
 
