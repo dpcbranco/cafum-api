@@ -125,8 +125,20 @@ const _validateBetPilots = async (req, res, next) => {
     next();
 };
 
+const _validateBetExistence = async (req, res, next) => {
+    const bet = await betService.findBetById(req.params.betId);
+
+    if (!bet)
+        return res
+            .status(404)
+            .send({ message: 'Bet not found' });
+
+    next();
+};
+
 module.exports = {
     validateNewBet: _validateNewBet,
     validateBetConflict: _validateBetConflict,
     validateBetPilots: _validateBetPilots,
+    validateBetExistence: _validateBetExistence
 };
