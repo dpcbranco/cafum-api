@@ -6,6 +6,10 @@ const betModel = mongoose.model('Bet', Bet);
 mongoose.model('User', User);
 mongoose.model('Gp', Gp);
 
+const _findBetById = async (id) => {
+    return await betModel.findById(id).populate('gpId').populate('userId');
+};
+
 const _findBet = async (filter) => {
     return await betModel.findOne(filter).populate('gpId').populate('userId');
 };
@@ -21,6 +25,7 @@ const _updateBet = async (id, patch) => {
 };
 
 module.exports = {
+    findBetById: _findBetById,
     findBet: _findBet,
     createBet: _createBet,
     updateBet: _updateBet,
