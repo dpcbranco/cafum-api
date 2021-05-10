@@ -15,6 +15,7 @@ router.post(
 router.patch(
     '/:betId',
     betValidator.validateBetPilots,
+    betValidator.validateBetExistence,
     betsController.patchBet
 );
 
