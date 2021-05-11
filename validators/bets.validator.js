@@ -6,11 +6,7 @@ const _validateNewBet = async (req, res, next) => {
 
     // Validates mandatory fields sent in the request body
     if (!req.body.gpId) errors.push({ message: 'gpId not informed' });
-    if (req.body.pilotBets) {
-        validatePilotDuplicates(req.body.pilotBets).forEach(
-            error => errors.push(error)
-        );
-    }
+    if (!req.body.pilotBets) errors.push({ message: 'pilotBets not informed' });
     if (errors.length > 0) return res.status(400).send({ errors });
 
     next();
@@ -38,9 +34,17 @@ const _validateBetConflict = async (req, res, next) => {
     next();
 };
 
-const validatePilotDuplicates = (pilotBets) => {
+const _validatePilotDuplicates = (req, res, next) => {
 
+    const pilotBets = req.body.pilotBets;
     const errors = [];
+
+    if (res.bet) 
+        res.bet.pilotBets.forEach(pilotBet => {
+            if (!pilotBets.find(pb => {
+                return pb.id.toString() === pilotBet.id.toString();
+            })) pilotBets.push(pilotBet);
+        });
 
     // Validates duplicated pilots
     const duplicatedPilots = [];
@@ -95,8 +99,11 @@ const validatePilotDuplicates = (pilotBets) => {
             duplicated: duplicatedRace,
         });
     
-    return errors;
+    if (errors.length > 0 )return res.status(400).send(errors);
+
+    next();
 };
+    
 
 const _validateBetPilots = async (req, res, next) => {
     let pilotBets = req.body.pilotBets;
@@ -133,12 +140,14 @@ const _validateBetExistence = async (req, res, next) => {
             .status(404)
             .send({ message: 'Bet not found' });
 
+    res.bet = bet;
     next();
 };
 
 module.exports = {
     validateNewBet: _validateNewBet,
     validateBetConflict: _validateBetConflict,
+    validatePilotDuplicates: _validatePilotDuplicates,
     validateBetPilots: _validateBetPilots,
     validateBetExistence: _validateBetExistence
 };
