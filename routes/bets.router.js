@@ -7,6 +7,7 @@ router.get('/user/:userId', betsController.getBetByUser);
 router.post(
     '/new',
     betValidator.validateNewBet,
+    betValidator.validatePilotDuplicates,
     gpValidator.validateGpExistence,
     betValidator.validateBetConflict,
     betValidator.validateBetPilots,
@@ -14,8 +15,9 @@ router.post(
 );
 router.patch(
     '/:betId',
-    betValidator.validateBetPilots,
     betValidator.validateBetExistence,
+    betValidator.validatePilotDuplicates,
+    betValidator.validateBetPilots,
     betsController.patchBet
 );
 
