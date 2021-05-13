@@ -11,12 +11,12 @@ const _getBetById = async (req, res) => {
         res.status(404).send({ message: 'Bet not found' });
 };
 
-const _getBetsByUser = async (req, res) => {
+const _getLeagueBets = async (req, res) => {
     const betFilter = { 
-        userId: req.params.userId,
         leagueId: res.league._id.toString() 
     };
-    if (req.query.gp) betFilter.gpId = req.query.gp;
+    if (req.query.userId) betFilter.userId = req.query.userId;
+    if (req.query.gpId) betFilter.gpId = req.query.gp;
     const bets = await betService.findBet(betFilter);
     return bets.length > 0 ?
         res.status(200).send(bets) : 
@@ -35,7 +35,7 @@ const _patchBet = async (req, res) => {
 
 module.exports = {
     getBetById: _getBetById,
-    getBetsByUser: _getBetsByUser,
+    getLeagueBets: _getLeagueBets,
     postNewBet: _postNewBet,
     patchBet: _patchBet,
 };
