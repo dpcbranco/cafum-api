@@ -7,11 +7,11 @@ mongoose.model('User', User);
 mongoose.model('Gp', Gp);
 
 const _findBetById = async (id) => {
-    return await betModel.findById(id).populate('gpId').populate('userId');
+    return await betModel.findById(id);
 };
 
 const _findBet = async (filter) => {
-    return await betModel.find(filter).populate('gpId').populate('userId');
+    return await betModel.find(filter);
 };
 
 const _createBet = async (bet) => {
