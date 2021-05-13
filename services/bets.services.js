@@ -11,7 +11,7 @@ const _findBetById = async (id) => {
 };
 
 const _findBet = async (filter) => {
-    return await betModel.findOne(filter).populate('gpId').populate('userId');
+    return await betModel.find(filter).populate('gpId').populate('userId');
 };
 
 const _createBet = async (bet) => {
