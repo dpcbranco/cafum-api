@@ -11,10 +11,16 @@ const _getBetById = async (req, res) => {
         res.status(404).send({ message: 'Bet not found' });
 };
 
-const _getBetsByUser = async (req) => {
-    const betFilter = { userId: req.params.userId };
+const _getBetsByUser = async (req, res) => {
+    const betFilter = { 
+        userId: req.params.userId,
+        leagueId: res.league._id.toString() 
+    };
     if (req.query.gp) betFilter.gpId = req.query.gp;
-    return await betService.findBet(betFilter);
+    const bets = await betService.findBet(betFilter);
+    return bets.length > 0 ?
+        res.status(200).send(bets) : 
+        res.status(404).send({ message: 'No bets found.' });
 };
 
 const _postNewBet = async (req, res) => {
