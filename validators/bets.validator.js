@@ -36,7 +36,7 @@ const _validateBetConflict = async (req, res, next) => {
 
 const _validatePilotDuplicates = (req, res, next) => {
 
-    const pilotBets = req.body.pilotBets;
+    const pilotBets = req.body.pilotBets.slice();
     const errors = [];
 
     if (res.bet) 
@@ -99,7 +99,15 @@ const _validatePilotDuplicates = (req, res, next) => {
             duplicated: duplicatedRace,
         });
     
-    if (errors.length > 0 )return res.status(400).send(errors);
+    const fastestLap = pilotBets.filter(pilotBet => pilotBet.bestLap);
+
+    if (fastestLap.length > 1) 
+        errors.push({
+            message: 'More than one pilot assigned with fastest lap',
+            duplicated: fastestLap
+        });
+    
+    if (errors.length > 0) return res.status(400).send(errors);
 
     next();
 };
