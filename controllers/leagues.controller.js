@@ -1,4 +1,5 @@
 const leagueService = require('../services/leagues.service');
+const betService = require('../services/bets.services');
 const authService = require('../services/auth.service');
 
 const _createLeague = async (req, res) => {
@@ -62,9 +63,22 @@ const _removeUser = async (req, res) => {
     });
 };
 
+const _getLeagueBets = async (req, res) => {
+    const betFilter = { 
+        leagueId: res.league._id.toString() 
+    };
+    if (req.query.userId) betFilter.userId = req.query.userId;
+    if (req.query.gpId) betFilter.gpId = req.query.gp;
+    const bets = await betService.findBet(betFilter);
+    return bets.length > 0 ?
+        res.status(200).send(bets) : 
+        res.status(404).send({ message: 'No bets found.' });
+};
+
 module.exports = {
     createLeague: _createLeague,
     findLeague: _findLeague,
     addUser: _addUser,
-    removeUser: _removeUser
+    removeUser: _removeUser,
+    getLeagueBets: _getLeagueBets
 };
