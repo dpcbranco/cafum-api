@@ -35,6 +35,7 @@ router.get('/:leagueId/bets',
 
 router.post(
     '/:leagueId/bets/new',
+    leagueValidator.validateLeagueExistence,
     betValidator.validateNewBet,
     betValidator.validatePilotDuplicates,
     gpValidator.validateGpExistence,
