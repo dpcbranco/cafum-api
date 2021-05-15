@@ -11,10 +11,6 @@ const _getBetById = async (req, res) => {
         res.status(404).send({ message: 'Bet not found' });
 };
 
-const _postNewBet = async (req, res) => {
-    return res.status(200).send(await betService.createBet(req.body));
-};
-
 const _patchBet = async (req, res) => {
     return res
         .status(200)
@@ -23,6 +19,5 @@ const _patchBet = async (req, res) => {
 
 module.exports = {
     getBetById: _getBetById,
-    postNewBet: _postNewBet,
     patchBet: _patchBet,
 };

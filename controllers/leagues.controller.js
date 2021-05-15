@@ -75,10 +75,15 @@ const _getLeagueBets = async (req, res) => {
         res.status(404).send({ message: 'No bets found.' });
 };
 
+const _postNewLeagueBet = async (req, res) => {
+    return res.status(200).send(await betService.createBet(req.body));
+};
+
 module.exports = {
     createLeague: _createLeague,
     findLeague: _findLeague,
     addUser: _addUser,
     removeUser: _removeUser,
-    getLeagueBets: _getLeagueBets
+    getLeagueBets: _getLeagueBets,
+    postNewLeagueBet: _postNewLeagueBet,
 };
