@@ -3,8 +3,8 @@ const router = require('express').Router();
 const leaguesController = require('../controllers/leagues.controller');
 const leagueController = require('../controllers/leagues.controller');
 const leagueValidator = require('../validators/leagues.validators');
-
-const betsRouter = require('./bets.router');
+const betValidator = require('../validators/bets.validator');
+const gpValidator = require('../validators/gps.validator');
 
 router.post(
     '/new',
@@ -32,10 +32,15 @@ router.get('/:leagueId/bets',
     leagueValidator.validateLeagueExistence,
     leaguesController.getLeagueBets
 );
-router.use(
-    '/:leagueId/bets',
-    leagueValidator.validateLeagueExistence,
-    betsRouter
+
+router.post(
+    '/:leagueId/bets/new',
+    betValidator.validateNewBet,
+    betValidator.validatePilotDuplicates,
+    gpValidator.validateGpExistence,
+    betValidator.validateBetConflict,
+    betValidator.validateBetPilots,
+    leagueController.postNewLeagueBet
 );
 
 module.exports = router;
