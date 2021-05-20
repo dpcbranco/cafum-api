@@ -1,22 +1,26 @@
 const router = require('express').Router();
 
-const leaguesController = require('../controllers/leagues.controller');
 const leagueController = require('../controllers/leagues.controller');
 const leagueValidator = require('../validators/leagues.validators');
 const betValidator = require('../validators/bets.validator');
 const gpValidator = require('../validators/gps.validator');
 const userValidator = require('../validators/users.validator');
 
-router.post(
-    '/new',
-    leagueValidator.validateNewLeague,
-    leagueController.createLeague
-);
-
 router.get(
     '/:leagueId',
     leagueValidator.validateLeagueExistence,
     leagueController.findLeague
+);
+
+router.get('/:leagueId/bets',
+    leagueValidator.validateLeagueExistence,
+    leagueController.getLeagueBets
+);
+
+router.post(
+    '/new',
+    leagueValidator.validateNewLeague,
+    leagueController.createLeague
 );
 
 router.post(
@@ -25,19 +29,6 @@ router.post(
     leagueValidator.validateManager,
     userValidator.validateUserExistence,
     leagueController.addUser
-);
-
-router.delete(
-    '/:leagueId/user/:userId',
-    leagueValidator.validateLeagueExistence,
-    leagueValidator.validateManager,
-    userValidator.validateUserExistence,
-    leagueController.removeUser
-);
-
-router.get('/:leagueId/bets',
-    leagueValidator.validateLeagueExistence,
-    leaguesController.getLeagueBets
 );
 
 router.post(
@@ -49,6 +40,14 @@ router.post(
     betValidator.validateBetConflict,
     betValidator.validateBetPilots,
     leagueController.postNewLeagueBet
+);
+
+router.delete(
+    '/:leagueId/user/:userId',
+    leagueValidator.validateLeagueExistence,
+    leagueValidator.validateManager,
+    userValidator.validateUserExistence,
+    leagueController.removeUser
 );
 
 module.exports = router;
