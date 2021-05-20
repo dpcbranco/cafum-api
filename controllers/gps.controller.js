@@ -19,8 +19,17 @@ const calculateRaceResults = async (req, res) => {
             const totalPoints = bet.totalPoints + betUtils.calculateBetPoints(
                 bet, league.pointSystem, currentRace.raceResult
             );
+            const memberIndex = league.members.findIndex(
+                (member) => member.user.toString() === bet.userId.toString() 
+            );
+            league.members[memberIndex].points += totalPoints;
+
             betService.updateBet(bet, { totalPoints });
         }
+    );
+
+    leagues.forEach((league) => 
+        leagueService.updateLeague(league._id, { members: league.members })
     );
 
     return res.status(200).send(
