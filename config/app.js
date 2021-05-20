@@ -7,6 +7,7 @@ const authRouter = require('../routes/auth.router');
 const pilotsRouter = require('../routes/pilots.router');
 const leagueRouter = require('../routes/leagues.router');
 const betsRouter = require('../routes/bets.router');
+const gpsRouter = require('../routes/gps.router');
 
 const app = express();
 
@@ -21,6 +22,7 @@ app.use('/auth', authRouter);
 app.use('/pilots', authUtils.validateToken, pilotsRouter);
 app.use('/bets', authUtils.validateToken, betsRouter);
 app.use('/leagues', authUtils.validateToken, leagueRouter);
+app.use('/gps', gpsRouter);
 app.use(function (req, res) {
     return res.status(404).send({ error: 'Endpoint Not Found!' });
 });
