@@ -6,4 +6,9 @@ router.post(
     gpController.calculateRaceResults
 );
 
+router.post(
+    '/result/qualifying/calculateLeagues',
+    gpController.calculateQualiResults
+);
+
 module.exports = router;
