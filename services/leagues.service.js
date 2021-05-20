@@ -12,6 +12,10 @@ const _findLeagueByName = async (name) => {
     return await leagueSchema.findOne({ name });
 };
 
+const _getAllLeagues = async () => {
+    return await leagueSchema.find();
+};
+
 const _createLeague = async (league) => {
     return await leagueSchema.create(league);
 };
@@ -25,6 +29,7 @@ const _updateLeague = async (id, patch) => {
 module.exports = {
     findLeagueById: _findLeagueById,
     findLeagueByName: _findLeagueByName,
+    getAllLeagues: _getAllLeagues,
     createLeague: _createLeague,
     updateLeague: _updateLeague
 };
