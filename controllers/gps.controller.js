@@ -16,7 +16,7 @@ const calculateRaceResults = async (req, res) => {
             const league = leagues.find(
                 (league) => bet.leagueId.toString() === league._id.toString()
             );
-            const totalPoints = bet.totalPoints + betUtils.calculateBetPoints(
+            const totalPoints = bet.totalPoints + betUtils.calculateRacePoints(
                 bet, league.pointSystem, currentRace.raceResult
             );
             const memberIndex = league.members.findIndex(
