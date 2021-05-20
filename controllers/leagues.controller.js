@@ -1,6 +1,5 @@
 const leagueService = require('../services/leagues.service');
 const betService = require('../services/bets.services');
-const authService = require('../services/auth.service');
 
 const _createLeague = async (req, res) => {
     return res.status(200).send(await leagueService.createLeague(
@@ -14,12 +13,7 @@ const _findLeague = async (req, res) => {
 
 const _addUser = async (req, res) => {
     const league = res.league;
-
-    // Validates existence of user reference in database
-    const user = await authService.findById(req.params.userId);
-    if (!user) return res.status(404).send({
-        message: 'User not found.'
-    });
+    const user = res.user;
 
     // Validates if user is already member
     if (league.members.find((member) => {
@@ -43,12 +37,7 @@ const _addUser = async (req, res) => {
 
 const _removeUser = async (req, res) => {
     const league = res.league;
-
-    // Validates existence of user reference in database
-    const user = await authService.findById(req.params.userId);
-    if (!user) return res.status(404).send({
-        message: 'User not found.'
-    });
+    const user = res.user;
 
     league.members = league.members.filter(
         (member) => member.user.toString() !== user._id.toString() 
