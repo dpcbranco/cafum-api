@@ -1,11 +1,12 @@
 const calculateRacePoints = (bet, pointSystem, result) => {
     let finalPoints = 0;
 
-    if (bet.length > 0){
-        bet.forEach((pilot) => {
-            const pilotResult = result.findIndex(
+    if (bet.pilotBets.length > 0){
+        bet.pilotBets.forEach((pilot) => {
+            const finishers = result.finishers;
+            const pilotResult = finishers.findIndex(
                 pr => pr.pilot.toString() === pilot.id.toString()
-            );
+            ) + 1;
 
             if (pilotResult) {
                 // Difference between bet and actual result
@@ -16,7 +17,7 @@ const calculateRacePoints = (bet, pointSystem, result) => {
                 else if (Math.abs(betResultDiff) === 1)
                     finalPoints += pointSystem.raceCloseCall;
 
-                if (result[pilotResult].bestLap === pilot.bestLap)
+                if (finishers[pilotResult - 1].bestLap && pilot.bestLap)
                     finalPoints += pointSystem.fastestLap;
             } 
         });
