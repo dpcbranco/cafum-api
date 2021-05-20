@@ -8,5 +8,6 @@ module.exports = new Schema({
             bestLap: Schema.Types.Boolean
         }],
         dnf: [{ type: Schema.Types.ObjectId, ref: 'Pilot' }]
-    }
+    },
+    qualiResult: [{ type: Schema.Types.ObjectId, ref: 'Pilot' }]
 },{ versionKey: false });
