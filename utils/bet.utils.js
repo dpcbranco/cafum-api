@@ -25,6 +25,26 @@ const calculateRacePoints = (bet, pointSystem, raceResult) => {
 
 };
 
+
+const calculateQualiPoints = (bet, pointSystem, qualiResult) => {
+    let finalPoints = 0;
+
+    bet.pilotBets.forEach((pilot) => {
+        const pilotResult = qualiResult.findIndex(
+            pr => pr.toString() === pilot.id.toString()
+        ) + 1;
+
+        if (pilotResult) {         
+            if (pilotResult === pilot.qualifyingPosition)
+                finalPoints += pointSystem.qualiCorrect;
+        } 
+    });
+
+    return finalPoints;
+
+};
+
 module.exports = {
-    calculateRacePoints
+    calculateRacePoints,
+    calculateQualiPoints
 };
