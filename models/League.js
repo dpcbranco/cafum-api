@@ -30,7 +30,11 @@ module.exports = new Schema({
             ref: 'User'
         },
         owner: { type: Boolean, default: false },
-        manager: { type: Boolean, default: false }
+        manager: { type: Boolean, default: false },
+        points: {
+            type: Number,
+            default: 0
+        }
     }]
 
 }, {
