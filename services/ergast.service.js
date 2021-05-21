@@ -158,13 +158,28 @@ const getConstructorStandingsData = async(season='current') => {
  */
 const getLastQualiResult = async () => {
     const uri = `http://ergast.com/api/f1/current/last/qualifying.json`;
-    got.get(uri, {responseType: 'application/json'})
+    return got.get(uri, {responseType: 'application/json'})
     .then((res) => {
         const responseBody = JSON.parse(res.body);
         if (!responseBody) return null;
 
         if (responseBody.MRData.RaceTable.Races.length > 0)
             return responseBody.MRData.RaceTable.Races[0].QualifyingResults;
+        
+        return null;
+
+    })
+}
+
+const getLastGp = async () => {
+    const uri = `http://ergast.com/api/f1/current/last.json`
+    return got.get(uri, {responseType: 'application/json'})
+    .then((res) => {
+        const responseBody = JSON.parse(res.body);
+        if (!responseBody) return null;
+
+        if (responseBody.MRData.RaceTable)
+            return responseBody.MRData.RaceTable.round;
         
         return null;
 
@@ -178,5 +193,6 @@ module.exports = {
     ScheduleData             : getScheduleData               ,
     DriverStandingsData      : getDriverStandingsData        ,
     ConstructorStandingsData : getConstructorStandingsData   ,
-    getLastQualiResult
+    getLastQualiResult                                       ,
+    getLastGp
 };
