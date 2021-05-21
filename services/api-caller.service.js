@@ -149,7 +149,27 @@ const getConstructorStandingsData = async(season='current') => {
                 resolve(constructorStandingsData);
             });
     });
-};
+}; 
+
+/**
+ * Retorna da API o resultado da última quali
+ * 
+ * @returns {Array} Array de lista de pilotos na ordem da quali
+ */
+const getLastQualiResult = async () => {
+    const uri = `http://ergast.com/api/f1/current/last/qualifying.json`;
+    got.get(uri, {responseType: 'application/json'})
+    .then((res) => {
+        const responseBody = JSON.parse(res.body);
+        if (!responseBody) return null;
+
+        if (responseBody.MRData.RaceTable.Races.length > 0)
+            return responseBody.MRData.RaceTable.Races[0].QualifyingResults;
+        
+        return null;
+
+    })
+}
 
 module.exports = {
     SeasonsData              : getSeasonsData                ,
@@ -157,5 +177,6 @@ module.exports = {
     ConstructorsData         : getConstructorsData           ,
     ScheduleData             : getScheduleData               ,
     DriverStandingsData      : getDriverStandingsData        ,
-    ConstructorStandingsData : getConstructorStandingsData   
+    ConstructorStandingsData : getConstructorStandingsData   ,
+    getLastQualiResult
 };
