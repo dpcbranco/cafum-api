@@ -10,7 +10,12 @@ const _findPilotById = async (id) => {
     return await pilotSchema.findById(id);
 };
 
+const _findPilotByNumber = async(number) => {
+    return await pilotSchema.findOne({ number });
+};
+
 module.exports = {
     findPilots: _findPilots,
     findPilotById: _findPilotById,
+    findPilotByNumber: _findPilotByNumber
 };
