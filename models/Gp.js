@@ -9,5 +9,6 @@ module.exports = new Schema({
         }],
         dnf: [{ type: Schema.Types.ObjectId, ref: 'Pilot' }]
     },
-    qualiResult: [{ type: Schema.Types.ObjectId, ref: 'Pilot' }]
+    qualiResult: [{ type: Schema.Types.ObjectId, ref: 'Pilot' }],
+    round: Number,
 },{ versionKey: false });
