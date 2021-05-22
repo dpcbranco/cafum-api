@@ -6,9 +6,17 @@ const betUtils = require('../utils/bet.utils');
 const ergastUtils = require('../utils/ergast.utils');
 
 const calculateRaceResults = async (req, res) => {
-    const currentRace = await gpService.findCurrentRace();
-    if (!currentRace.raceResult) 
+    const raceResult = await ergastService.getLastRaceResult();
+    const currentRound = +(await ergastService.getLastGp());
+
+    if (!raceResult)
         return res.status(200).send({ message: 'Results not in yet.' });
+
+    const currentRace = await gpService.findByRound(currentRound);
+    currentRace.raceResult = await ergastUtils.raceToDBModel(raceResult);
+    gpService.updateGp(
+        currentRace._id, { raceResult: currentRace.raceResult }
+    );
     
     const gpBets = await betService.findBet({ gpId: currentRace._id });
     const leagues = await leagueService.getAllLeagues();
