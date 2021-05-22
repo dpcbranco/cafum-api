@@ -171,6 +171,21 @@ const getLastQualiResult = async () => {
     })
 }
 
+const getLastRaceResult = async () => {
+    const uri = `http://ergast.com/api/f1/current/last/results.json`;
+    return got.get(uri, {responseType: 'application/json'})
+    .then((res) => {
+        const responseBody = JSON.parse(res.body);
+        if (!responseBody) return null;
+
+        if (responseBody.MRData.RaceTable.Races.length > 0)
+            return responseBody.MRData.RaceTable.Races[0].Results;
+        
+        return null;
+
+    })
+}
+
 const getLastGp = async () => {
     const uri = `http://ergast.com/api/f1/current/last.json`
     return got.get(uri, {responseType: 'application/json'})
@@ -194,5 +209,6 @@ module.exports = {
     DriverStandingsData      : getDriverStandingsData        ,
     ConstructorStandingsData : getConstructorStandingsData   ,
     getLastQualiResult                                       ,
+    getLastRaceResult                                        ,
     getLastGp
 };
