@@ -152,12 +152,12 @@ const getConstructorStandingsData = async(season='current') => {
 }; 
 
 /**
- * Retorna da API o resultado da última quali
+ * Retorna da API o resultado da qualifying do round especificado
  * 
  * @returns {Array} Array de lista de pilotos na ordem da quali
  */
-const getLastQualiResult = async () => {
-    const uri = `http://ergast.com/api/f1/current/last/qualifying.json`;
+const getQualiResult = async (round) => {
+    const uri = `http://ergast.com/api/f1/current/${round}/qualifying.json`;
     return got.get(uri, {responseType: 'application/json'})
     .then((res) => {
         const responseBody = JSON.parse(res.body);
@@ -171,8 +171,8 @@ const getLastQualiResult = async () => {
     })
 }
 
-const getLastRaceResult = async () => {
-    const uri = `http://ergast.com/api/f1/current/last/results.json`;
+const getRaceResult = async (round) => {
+    const uri = `http://ergast.com/api/f1/current/${round}/results.json`;
     return got.get(uri, {responseType: 'application/json'})
     .then((res) => {
         const responseBody = JSON.parse(res.body);
@@ -208,7 +208,7 @@ module.exports = {
     ScheduleData             : getScheduleData               ,
     DriverStandingsData      : getDriverStandingsData        ,
     ConstructorStandingsData : getConstructorStandingsData   ,
-    getLastQualiResult                                       ,
-    getLastRaceResult                                        ,
+    getQualiResult                                       ,
+    getRaceResult                                        ,
     getLastGp
 };

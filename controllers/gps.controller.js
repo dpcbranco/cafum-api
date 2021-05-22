@@ -6,8 +6,8 @@ const betUtils = require('../utils/bet.utils');
 const ergastUtils = require('../utils/ergast.utils');
 
 const calculateRaceResults = async (req, res) => {
-    const raceResult = await ergastService.getLastRaceResult();
     const currentRound = +(await ergastService.getLastGp());
+    const raceResult = await ergastService.getRaceResult(currentRound);
 
     if (!raceResult)
         return res.status(200).send({ message: 'Results not in yet.' });
@@ -48,8 +48,9 @@ const calculateRaceResults = async (req, res) => {
 };
 
 const calculateQualiResults = async (req, res) => {
-    const qualiResult = await ergastService.getLastQualiResult();
-    const currentRound = +(await ergastService.getLastGp());
+    // Gets last round + 1, since last round olnly updates at the end of the race
+    const currentRound = +(await ergastService.getLastGp()) + 1;
+    const qualiResult = await ergastService.getQualiResult(currentRound);
 
     if (!qualiResult)
         return res.status(200).send({ message: 'Results not in yet.' });
