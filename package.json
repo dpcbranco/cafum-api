@@ -8,6 +8,7 @@
   },
   "dependencies": {
     "express": "~4.16.1",
+    "got": "^11.8.2",
     "jsonwebtoken": "^8.5.1",
     "jwtoken": "0.0.0",
     "mongoose": "^5.12.2",
